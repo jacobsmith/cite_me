@@ -30,6 +30,7 @@ Possible for type currently include:
 Each of these accepts options that make sense for that specific type of medium:
 
 Book
+
         options = { type: 'book',
                  authors: ['Smith, Jacob'],
                    title: 'The Art of Writing Code',
@@ -39,6 +40,7 @@ Book
                   medium: 'Print'}
 
 Magazine
+
         options = { type: 'magazine',
                  authors: ['Jacob Smith'],
         title_of_article: 'Fishing redefined',
@@ -48,6 +50,7 @@ Magazine
                   medium: 'Print'} `
 
 Web
+
          options = { type: 'web',
                   authors: 'John A. Doe',
              name_of_site: 'Starbucks',
