@@ -30,30 +30,30 @@ Possible for type currently include:
 Each of these accepts options that make sense for that specific type of medium:
 
 Book
-       options = { type: 'book',
-                authors: ['Smith, Jacob'],
-                  title: 'The Art of Writing Code',
-    city_of_publication: '',
-              publisher: 'Smith, Inc.',
-    year_of_publication: '',
-                 medium: 'Print'}
+        options = { type: 'book',
+                 authors: ['Smith, Jacob'],
+                   title: 'The Art of Writing Code',
+     city_of_publication: '',
+               publisher: 'Smith, Inc.',
+     year_of_publication: '',
+                  medium: 'Print'}
 
 Magazine
-       options = { type: 'magazine',
-                authors: ['Jacob Smith'],
-       title_of_article: 'Fishing redefined',
-    title_of_periodical: 'Fishes-R-Us',
-       publication_date: '10 October 1992',
-                  pages: '1-4',
-                 medium: 'Print'} `
+        options = { type: 'magazine',
+                 authors: ['Jacob Smith'],
+        title_of_article: 'Fishing redefined',
+     title_of_periodical: 'Fishes-R-Us',
+        publication_date: '10 October 1992',
+                   pages: '1-4',
+                  medium: 'Print'} `
 
 Web
-        options = { type: 'web',
-                 authors: 'John A. Doe',
-            name_of_site: 'Starbucks',
-    name_of_organization: 'Time',
-        date_of_creation: '10 Oct 1992',
-          date_of_access: '14 Feb 2014' }
+         options = { type: 'web',
+                  authors: 'John A. Doe',
+             name_of_site: 'Starbucks',
+     name_of_organization: 'Time',
+         date_of_creation: '10 Oct 1992',
+           date_of_access: '14 Feb 2014' }
 
 Notes
 =====
