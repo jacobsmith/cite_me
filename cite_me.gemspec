@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'cite_me'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2014-02-07'
   s.summary     = "Create MLA citations"
-  s.description = "Provide information about a source and recieve properly MLA formatted citations (suitable for a bibliography)."
+  s.description = "Properly MLA formatted citations (suitable for a bibliography) from a passed hash."
   s.authors     = ["Jacob Smith"]
   s.email       = 'jacob.wesley.smith@gmail.com'
   s.files       = ["lib/cite_me.rb"]
