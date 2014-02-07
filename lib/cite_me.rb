@@ -34,7 +34,7 @@ class Cite_Me
   def mla_book_generate_citation(options)
    clean_options = clean_hash(options)
    output = ''
-   output <<  authors(clean_options[:authors])
+   output <<  authors(clean_options[:authors]) || authors(clean_options[:author])
    output <<  "<i>" + clean_options[:title] + "</i>. " if clean_options[:title]
    output <<  clean_options[:city_of_publication] + ": " if clean_options[:city_of_publication]
    output <<  clean_options[:publisher] + ", " if clean_options[:publisher]
@@ -47,7 +47,7 @@ class Cite_Me
   def mla_magazine_generate_citation(options)
    clean_options = clean_hash(options)
    output = ''
-   output <<  authors(clean_options[:authors])
+   output <<  authors(clean_options[:authors]) || authors(clean_options[:author])
    output <<  %{"#{clean_options[:title_of_article]}." }
    output <<  "<i>" + clean_options[:title_of_periodical] + "</i> "
    output <<  clean_options[:publication_date] + ": "
