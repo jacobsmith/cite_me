@@ -1,5 +1,6 @@
 Cite-Me
 ======
+[![Gem Version](https://badge.fury.io/rb/cite-me.png)](http://badge.fury.io/rb/cite-me)
 
 Create properly formatted MLA citations, suitable for use in a bibliography, works cited, etc.
 
