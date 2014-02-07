@@ -54,4 +54,21 @@ describe Cite_Me do
       expect(mla.generate_citation(options)).to eq 'Doe, John A. <i>Starbucks</i>. Time, 10 Oct 1992. Web. 14 Feb 2014.'
     end
   end
-end
+
+  describe 'propertly handles author/authors and string vs. array inputs' do
+    options = { type: 'web',
+      authors: 'John A. Doe',
+      name_of_site: 'Starbucks',
+      name_of_organization: 'Time',
+      date_of_creation: '10 Oct 1992',
+      date_of_access: '14 Feb 2014' }
+    it 'assumes options[:author] is one author and will accept string' do
+      expect(mla.generate_citation(options)).to eq 'Doe, John A. <i>Starbucks</i>. Time, 10 Oct 1992. Web. 14 Feb 2014.'
+    end
+  end
+
+    it 'assumes options[:authors] is multiple authors and will accept array' do
+      expect(mla.send(:authors,['Jacob Smith', 'John A. Doe'])).to eq 'Smith, Jacob, and Doe, John A. '
+    end
+  end
+
