@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cite-me'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.date        = '2014-02-07'
   s.summary     = "Create MLA citations"
   s.description = "Properly MLA formatted citations (suitable for a bibliography) from ActiveRecord object.attributes or hash."

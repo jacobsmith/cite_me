@@ -108,10 +108,12 @@ class Cite_Me
       'n.d. '
     end
   end
-  
+
   def clean_hash(options)
     clean_options = {}
-    options = options.attributes if !options.is_a? Hash
+    if options.class.ancestors.include?(ActiveRecord::Base)
+      options = options.attributes
+    end
 
     ## delete any " in key (usually from ActiveRecord object) and turn it to a symbol
     ## we also call to_s on any present values in case a date or year is saved
