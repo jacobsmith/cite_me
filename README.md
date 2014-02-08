@@ -24,6 +24,7 @@ You can now build a hash of options to pass to it:
 Now, simply call `cite.generate_citation(options)` and it will return a propery formatted MLA citation.
 
 You can also pass in an ActiveRecord Object's #attributes and it will return a proper citation. Example:
+
     source = Source.first
     c = Cite_Me.new
     c.generate_citation source.attributes
