@@ -4,7 +4,7 @@ describe Cite_Me do
   let!(:mla) { Cite_Me.new }
 
   describe 'returns proper book citation' do
-    options = { type: 'book',
+    options = { source_type: 'book',
       authors: ['Jacob Smith'], 
       title: 'The Art of Writing Code',
       city_of_publication: 'Indianapolis',
@@ -18,7 +18,7 @@ describe Cite_Me do
   end
 
   describe 'returns proper book citation' do
-    options = { type: 'book',
+    options = { source_type: 'book',
       authors: ['Smith, Jacob'], 
       title: 'The Art of Writing Code',
       city_of_publication: '',
@@ -31,7 +31,7 @@ describe Cite_Me do
   end
 
   describe 'returns proper magazine citation' do
-    options = { type: 'magazine',
+    options = { source_type: 'magazine',
       authors: ['Jacob Smith'],
       title_of_article: 'Fishing redefined',
       title_of_periodical: 'Fishes-R-Us',
@@ -44,7 +44,7 @@ describe Cite_Me do
   end
 
   describe 'returns proper web citation' do
-    options = { type: 'web',
+    options = { source_type: 'web',
       authors: ['John A. Doe'],
       name_of_site: 'Starbucks',
       name_of_organization: 'Time',
@@ -56,8 +56,8 @@ describe Cite_Me do
   end
 
   describe 'propertly handles author/authors and string vs. array inputs' do
-    options = { type: 'web',
-      authors: 'John A. Doe',
+    options = { source_type: 'web',
+      author: 'John A. Doe',
       name_of_site: 'Starbucks',
       name_of_organization: 'Time',
       date_of_creation: '10 Oct 1992',
@@ -70,5 +70,23 @@ describe Cite_Me do
     it 'assumes options[:authors] is multiple authors and will accept array' do
       expect(mla.send(:authors,['Jacob Smith', 'John A. Doe'])).to eq 'Smith, Jacob, and Doe, John A. '
     end
-  end
 
+  describe 'when given an ActiveRecord object by passing object.attributes as input' do
+      options = {"id"=>1,
+        "title"=>"Test Source One",
+        "author"=>"",
+        "url"=>"URL",
+        "comments"=>"Comments (:\r\n",
+        "created_at"=>"Thu, 23 Jan 2014 02:10:10 UTC +00:00",
+        "updated_at"=>"Sat, 08 Feb 2014 19:07:42 UTC +00:00",
+        "authors"=>"Jacob Smith",
+        "city_of_publication"=>nil,
+        "year_of_publication"=>1992,
+        "publisher"=>nil,
+        "medium"=>'Print',
+        "source_type"=>"book"}
+    it 'returns the proper citation' do
+      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>Test Source One</i>. 1992. Print."
+    end
+  end
+end

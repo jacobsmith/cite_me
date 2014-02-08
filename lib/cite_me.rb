@@ -1,7 +1,8 @@
+require 'pry'
 class Cite_Me 
   # Usage: 
   #    >> citation = Cite_Me.new
-  #    >> source = { type: 'book',
+  #    >> source = { source_type: 'book',
   #               authors: ['Jacob Smith'],
   #                 title: 'The Art of Writing Code',
   #   city_of_publication: 'Indianapolis',
@@ -19,22 +20,22 @@ class Cite_Me
   end
 
   def generate_citation(options)
-    case options[:type]
+   clean_options = clean_hash(options)
+    case clean_options[:source_type]
     when 'book'
-      mla_book_generate_citation(options)
+      mla_book_generate_citation(clean_options)
     when 'magazine'
-      mla_magazine_generate_citation(options)
+      mla_magazine_generate_citation(clean_options)
     when 'web'
-      mla_web_generate_citation(options)
+      mla_web_generate_citation(clean_options)
     end
   end
   
   private
 
-  def mla_book_generate_citation(options)
-   clean_options = clean_hash(options)
+  def mla_book_generate_citation(clean_options)
    output = ''
-   output <<  authors(clean_options[:authors]) || authors(clean_options[:author])
+   output << author_info(clean_options) 
    output <<  "<i>" + clean_options[:title] + "</i>. " if clean_options[:title]
    output <<  clean_options[:city_of_publication] + ": " if clean_options[:city_of_publication]
    output <<  clean_options[:publisher] + ", " if clean_options[:publisher]
@@ -44,10 +45,9 @@ class Cite_Me
    output
   end
 
-  def mla_magazine_generate_citation(options)
-   clean_options = clean_hash(options)
+  def mla_magazine_generate_citation(clean_options)
    output = ''
-   output <<  authors(clean_options[:authors]) || authors(clean_options[:author])
+   output << author_info(clean_options) 
    output <<  %{"#{clean_options[:title_of_article]}." }
    output <<  "<i>" + clean_options[:title_of_periodical] + "</i> "
    output <<  clean_options[:publication_date] + ": "
@@ -57,12 +57,11 @@ class Cite_Me
    output
   end
   
-  def mla_web_generate_citation(options)
-   clean_options = clean_hash(options)
+  def mla_web_generate_citation(clean_options)
    output = ''
-   output <<  authors(clean_options[:authors]) || authors(clean_options[:author])
+   output << author_info(clean_options)
    output <<  "<i>" + clean_options[:name_of_site] + "</i>. "
-  output << clean_options[:name_of_organization] + ", "
+   output << clean_options[:name_of_organization] + ", "
    output <<  clean_options[:date_of_creation] + ". "
    output <<  'Web. ' 
    output <<  clean_options[:date_of_access] + "."
@@ -98,7 +97,11 @@ class Cite_Me
     author_string
   end
 
-  def year_of_publication(option)
+  def author_info(clean_options)
+   author_info = clean_options[:authors] ? authors(clean_options[:authors]) : authors(clean_options[:author])
+  end
+
+   def year_of_publication(option)
     if option
       option.to_s + ". "
     else
@@ -108,11 +111,18 @@ class Cite_Me
   
   def clean_hash(options)
     clean_options = {}
+    options = options.attributes if !options.is_a? Hash
+
+    ## delete any " in key (usually from ActiveRecord object) and turn it to a symbol
+    ## we also call to_s on any present values in case a date or year is saved
+    ## as an integer in the database
     options.map do |key, value|
       if value == ''
-        clean_options[key] = nil
+        cleaned_key = ( key.is_a? Symbol ) ? key : key.delete('"').to_sym
+        clean_options[cleaned_key] = nil
       else
-        clean_options[key] = value
+        cleaned_key = ( key.is_a? Symbol ) ? key : key.delete('"').to_sym
+        clean_options[cleaned_key] = value
       end
     end
     clean_options

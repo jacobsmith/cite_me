@@ -13,7 +13,7 @@ In your code, create a new instance of Cite_Me `cite = Cite_Me.new`
 
 You can now build a hash of options to pass to it:
 
-       options = { type: 'book',
+       options = { source_type: 'book',
                 authors: ['Smith, Jacob'],
                   title: 'The Art of Writing Code',
     city_of_publication: '',
@@ -23,16 +23,16 @@ You can now build a hash of options to pass to it:
 
 Now, simply call `cite.generate_citation(options)` and it will return a propery formatted MLA citation.
 
-Possible for type currently include:
+Possible for source_type currently include:
 `book`
 `magazine`
 `web`
 
-Each of these accepts options that make sense for that specific type of medium:
+Each of these accepts options that make sense for that specific source_type of medium:
 
 Book
 
-        options = { type: 'book',
+        options = { source_type: 'book',
                  authors: ['Smith, Jacob'],
                    title: 'The Art of Writing Code',
      city_of_publication: '',
@@ -42,7 +42,7 @@ Book
 
 Magazine
 
-        options = { type: 'magazine',
+        options = { source_type: 'magazine',
                  authors: ['Jacob Smith'],
         title_of_article: 'Fishing redefined',
      title_of_periodical: 'Fishes-R-Us',
@@ -52,7 +52,7 @@ Magazine
 
 Web
 
-         options = { type: 'web',
+         options = { source_type: 'web',
                   authors: 'John A. Doe',
              name_of_site: 'Starbucks',
      name_of_organization: 'Time',
