@@ -23,6 +23,13 @@ You can now build a hash of options to pass to it:
 
 Now, simply call `cite.generate_citation(options)` and it will return a propery formatted MLA citation.
 
+You can also pass in an ActiveRecord Object's #attributes and it will return a proper citation. Example:
+    source = Source.first
+    c = Cite_Me.new
+    c.generate_citation source.attributes
+
+Please note that the columns on the passed object must match up with those in the hashes on this page (title, city_of_publication, etc.).
+
 Possible for source_type currently include:
 `book`
 `magazine`
