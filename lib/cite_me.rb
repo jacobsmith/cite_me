@@ -23,11 +23,11 @@ class Cite_Me
    clean_options = clean_hash(options)
     case clean_options[:source_type]
     when 'book'
-      mla_book_generate_citation(clean_options)
+      mla_book_generate_citation(clean_options).strip
     when 'magazine'
-      mla_magazine_generate_citation(clean_options)
+      mla_magazine_generate_citation(clean_options).strip
     when 'web'
-      mla_web_generate_citation(clean_options)
+      mla_web_generate_citation(clean_options).strip
     end
   end
   
@@ -35,7 +35,7 @@ class Cite_Me
 
   def mla_book_generate_citation(clean_options)
    output = ''
-   output << author_info(clean_options) 
+   output << author_info(clean_options)
    output <<  "<i>" + clean_options[:title] + "</i>. " if clean_options[:title]
    output <<  clean_options[:city_of_publication] + ": " if clean_options[:city_of_publication]
    output <<  clean_options[:publisher] + ", " if clean_options[:publisher]
@@ -98,7 +98,14 @@ class Cite_Me
   end
 
   def author_info(clean_options)
-   author_info = clean_options[:authors] ? authors(clean_options[:authors]) : authors(clean_options[:author])
+    if clean_options[:authors]
+      authors(clean_options[:authors])
+    elsif clean_options[:author]
+      authors(clean_options[:author])
+    else
+      # return empty string so it can concat it without error
+      ''
+    end
   end
 
    def year_of_publication(option)
@@ -111,7 +118,7 @@ class Cite_Me
 
   def clean_hash(options)
     clean_options = {}
-    if options.class.ancestors.include?(ActiveRecord::Base)
+    if options.class.ancestors.to_s.include?('ActiveRecord::Base')
       options = options.attributes
     end
 

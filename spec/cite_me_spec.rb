@@ -89,4 +89,11 @@ describe Cite_Me do
       expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>Test Source One</i>. 1992. Print."
     end
   end
+
+  describe 'when given just a title' do
+    options = { source_type: 'book', title: 'This is a title'}
+    it 'should still return a title properly formatted' do
+      expect(mla.generate_citation(options)).to eq '<i>This is a title</i>. n.d.'
+    end
+  end
 end
