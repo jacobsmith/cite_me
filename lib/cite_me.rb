@@ -36,7 +36,7 @@ class Cite_Me
   def mla_book_generate_citation(clean_options)
    output = ''
    output << author_info(clean_options)
-   output <<  "<i>" + clean_options[:title] + "</i>. " if clean_options[:title]
+   output <<  "<i>" + format_title(clean_options[:title]) + "</i>. " if clean_options[:title]
    output <<  clean_options[:city_of_publication] + ": " if clean_options[:city_of_publication]
    output <<  clean_options[:publisher] + ", " if clean_options[:publisher]
    output <<  year_of_publication(clean_options[:year_of_publication])
@@ -48,7 +48,7 @@ class Cite_Me
   def mla_magazine_generate_citation(clean_options)
    output = ''
    output << author_info(clean_options) 
-   output <<  %{"#{clean_options[:title_of_article]}." }
+   output <<  %{"#{format_title clean_options[:title_of_article]}." }
    output <<  "<i>" + clean_options[:title_of_periodical] + "</i> "
    output <<  clean_options[:publication_date] + ": "
    output <<  clean_options[:pages] + ". "
@@ -68,7 +68,12 @@ class Cite_Me
 
    output
   end
-  
+ 
+  def format_title(title)
+    # If the entry ends in '?', '!', or '.', do not add a '.' to the end
+    %w[? ! .].include?(title[-1]) ? title[0..(title.length-2)] : title
+  end
+
   def authors(option)
     author_string = ''
     if option.is_a? String

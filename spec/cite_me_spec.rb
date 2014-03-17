@@ -96,4 +96,12 @@ describe Cite_Me do
       expect(mla.generate_citation(options)).to eq '<i>This is a title</i>. n.d.'
     end
   end
+
+  describe 'when given a title with a period' do
+    options = { source_type: 'book', title: 'This is a title.'}
+    it 'should only have one period on the end of the title in the citation' do
+      expect(mla.generate_citation(options)).to eq '<i>This is a title</i>. n.d.'
+    end
+  end
+
 end
