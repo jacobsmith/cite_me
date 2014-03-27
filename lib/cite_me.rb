@@ -48,11 +48,11 @@ class Cite_Me
   def mla_magazine_generate_citation(clean_options)
    output = ''
    output << author_info(clean_options) 
-   output <<  %{"#{format_title clean_options[:title_of_article]}." }
-   output <<  "<i>" + clean_options[:title_of_periodical] + "</i> "
-   output <<  clean_options[:publication_date] + ": "
-   output <<  clean_options[:pages] + ". "
-   output <<  clean_options[:medium] + "."
+   output <<  %{"#{format_title clean_options[:title_of_article]}." } if clean_options[:title_of_article]
+   output <<  "<i>" + clean_options[:title_of_periodical] + "</i> " if clean_options[:title_of_periodical]
+   output <<  clean_options[:publication_date] + ": " if clean_options[:publication_date]
+   output <<  clean_options[:pages] + ". " if clean_options[:pages]
+   output <<  clean_options[:medium] + "." if clean_options[:medium]
 
    output
   end
@@ -60,11 +60,11 @@ class Cite_Me
   def mla_web_generate_citation(clean_options)
    output = ''
    output << author_info(clean_options)
-   output <<  "<i>" + clean_options[:name_of_site] + "</i>. "
-   output << clean_options[:name_of_organization] + ", "
-   output <<  clean_options[:date_of_creation] + ". "
+   output <<  "<i>" + clean_options[:name_of_site] + "</i>. " if clean_options[:name_of_site]
+   output << clean_options[:name_of_organization] + ", " if clean_options[:name_of_organization]
+   output <<  clean_options[:date_of_creation] + ". " if clean_options[:date_of_creation]
    output <<  'Web. ' 
-   output <<  clean_options[:date_of_access] + "."
+   output <<  clean_options[:date_of_access] + "." if clean_options[:date_of_access]
 
    output
   end
@@ -89,6 +89,8 @@ class Cite_Me
       if author =~ /,/
         # Doe, John A.
         author_string += author
+        # option.length - 1 checks if last entry in array of authors
+        #   if so, end with period, else, 'and , '
         author_string += index == option.length - 1 ? ". " : "and , "
       else
         # John Doe or John A. Doe

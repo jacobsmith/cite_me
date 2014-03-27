@@ -41,7 +41,22 @@ describe Cite_Me do
     it 'with full good input' do
       expect(mla.generate_citation(options)).to eq 'Smith, Jacob. "Fishing redefined." <i>Fishes-R-Us</i> 10 October 1992: 1-4. Print.'
     end
+
   end
+  
+  describe 'returns proper magazine citation' do
+    options = { source_type: 'magazine',
+      authors: ['Jacob Smith'],
+      title_of_article: '',
+      title_of_periodical: 'Fishes-R-Us',
+      publication_date: '10 October 1992',
+      pages: '1-4',
+      medium: 'Print'}
+    it 'with empty strings passed' do
+      expect(mla.generate_citation(options)).to eq 'Smith, Jacob. <i>Fishes-R-Us</i> 10 October 1992: 1-4. Print.'
+    end
+  end
+
 
   describe 'returns proper web citation' do
     options = { source_type: 'web',
