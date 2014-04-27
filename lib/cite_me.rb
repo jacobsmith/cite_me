@@ -96,12 +96,12 @@ class Cite_Me
         # John Doe or John A. Doe
         name = author.split(" ")
         middle_initial = author.scan(/ \w\. /)
-        author_string += name.last + ", " + name.first + middle_initial.first.to_s
+        author_string += name.last._to_s + ", " + name.first.to_s + middle_initial.first.to_s
         # add a period if it's the last entry and NOT a name with a middle initial
         author_string += index == option.length - 1 ? ". " : ", and " if middle_initial.empty?
       end
     end
-    author_string
+    author_string.to_s
   end
 
   def author_info(clean_options)
