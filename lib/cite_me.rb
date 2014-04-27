@@ -88,7 +88,7 @@ class Cite_Me
     option.each_with_index do |author, index|
       if author =~ /,/
         # Doe, John A.
-        author_string += author
+        author_string += author.to_s
         # option.length - 1 checks if last entry in array of authors
         #   if so, end with period, else, 'and , '
         author_string += index == option.length - 1 ? ". " : "and , "
