@@ -1,6 +1,6 @@
 require 'pry'
-class Cite_Me 
-  # Usage: 
+class Cite_Me
+  # Usage:
   #    >> citation = Cite_Me.new
   #    >> source = { source_type: 'book',
   #               authors: ['Jacob Smith'],
@@ -30,13 +30,13 @@ class Cite_Me
       mla_web_generate_citation(clean_options).strip
     end
   end
-  
+
   private
 
   def mla_book_generate_citation(clean_options)
    output = ''
    output << author_info(clean_options)
-   output <<  "<i>" + format_title(clean_options[:title]) + "</i>. " if clean_options[:title]
+   output <<  format_title(clean_options[:title]) if clean_options[:title]
    output <<  clean_options[:city_of_publication] + ": " if clean_options[:city_of_publication]
    output <<  clean_options[:publisher] + ", " if clean_options[:publisher]
    output <<  year_of_publication(clean_options[:year_of_publication])
@@ -47,37 +47,42 @@ class Cite_Me
 
   def mla_magazine_generate_citation(clean_options)
    output = ''
-   output << author_info(clean_options) 
-   output <<  %{"#{format_title clean_options[:title_of_article]}." } if clean_options[:title_of_article]
-   output <<  "<i>" + clean_options[:title_of_periodical] + "</i> " if clean_options[:title_of_periodical]
+   output << author_info(clean_options)
+   output <<  '"' + punctuated_title(clean_options[:title_of_article]) + '" ' if clean_options[:title_of_article]
+   output <<  "<i>" + clean_options[:title_of_periodical] + "</i>, " if clean_options[:title_of_periodical]
    output <<  clean_options[:publication_date] + ": " if clean_options[:publication_date]
    output <<  clean_options[:pages] + ". " if clean_options[:pages]
    output <<  clean_options[:medium] + "." if clean_options[:medium]
 
    output
   end
-  
+
   def mla_web_generate_citation(clean_options)
    output = ''
    output << author_info(clean_options)
-   output <<  "<i>" + clean_options[:name_of_site] + "</i>. " if clean_options[:name_of_site]
+   output << "\"#{punctuated_title(clean_options[:title_of_article])}\" " if clean_options[:title_of_article]
+   output << format_title(clean_options[:name_of_site]) if clean_options[:name_of_site]
    output << clean_options[:name_of_organization] + ", " if clean_options[:name_of_organization]
    output <<  clean_options[:date_of_creation] + ". " if clean_options[:date_of_creation]
-   output <<  'Web. ' 
+   output <<  'Web. '
    output <<  clean_options[:date_of_access] + "." if clean_options[:date_of_access]
 
    output
   end
- 
+
   def format_title(title)
-    # If the entry ends in '?', '!', or '.', do not add a '.' to the end
-    %w[? ! .].include?(title[-1]) ? title[0..(title.length-2)] : title
+    "<i>#{punctuated_title(title)}</i> "
+  end
+
+  def punctuated_title(title)
+    ending_puncutuation_present = %w[? ! .].include?(title[-1])
+    "#{title}#{'.' unless ending_puncutuation_present}"
   end
 
   def authors(option)
     author_string = ''
     if option.is_a? String
-      # if passed a string, cast it to an array 
+      # if passed a string, cast it to an array
       # then rename that array to option to be
       #consistent with the rest of the method
       author = []

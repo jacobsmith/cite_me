@@ -5,7 +5,7 @@ describe Cite_Me do
 
   describe 'returns proper book citation' do
     options = { source_type: 'book',
-      authors: ['Jacob Smith'], 
+      authors: ['Jacob Smith'],
       title: 'The Art of Writing Code',
       city_of_publication: 'Indianapolis',
       publisher: 'Smith, Inc.',
@@ -13,20 +13,20 @@ describe Cite_Me do
       medium: 'Print'}
 
     it 'with good input' do
-      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>The Art of Writing Code</i>. Indianapolis: Smith, Inc., 1992. Print."
+      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>The Art of Writing Code.</i> Indianapolis: Smith, Inc., 1992. Print."
     end
   end
 
   describe 'returns proper book citation' do
     options = { source_type: 'book',
-      authors: ['Smith, Jacob'], 
+      authors: ['Smith, Jacob'],
       title: 'The Art of Writing Code',
       city_of_publication: '',
       publisher: 'Smith, Inc.',
       year_of_publication: '',
       medium: 'Print'}
     it 'when missing inputs' do
-      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>The Art of Writing Code</i>. Smith, Inc., n.d. Print."
+      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>The Art of Writing Code.</i> Smith, Inc., n.d. Print."
     end
   end
 
@@ -39,11 +39,11 @@ describe Cite_Me do
       pages: '1-4',
       medium: 'Print'}
     it 'with full good input' do
-      expect(mla.generate_citation(options)).to eq 'Smith, Jacob. "Fishing redefined." <i>Fishes-R-Us</i> 10 October 1992: 1-4. Print.'
+      expect(mla.generate_citation(options)).to eq 'Smith, Jacob. "Fishing redefined." <i>Fishes-R-Us</i>, 10 October 1992: 1-4. Print.'
     end
 
   end
-  
+
   describe 'returns proper magazine citation' do
     options = { source_type: 'magazine',
       authors: ['Jacob Smith'],
@@ -53,7 +53,7 @@ describe Cite_Me do
       pages: '1-4',
       medium: 'Print'}
     it 'with empty strings passed' do
-      expect(mla.generate_citation(options)).to eq 'Smith, Jacob. <i>Fishes-R-Us</i> 10 October 1992: 1-4. Print.'
+      expect(mla.generate_citation(options)).to eq 'Smith, Jacob. <i>Fishes-R-Us</i>, 10 October 1992: 1-4. Print.'
     end
   end
 
@@ -61,12 +61,13 @@ describe Cite_Me do
   describe 'returns proper web citation' do
     options = { source_type: 'web',
       authors: ['John A. Doe'],
+      title_of_article: 'Article Title',
       name_of_site: 'Starbucks',
       name_of_organization: 'Time',
       date_of_creation: '10 Oct 1992',
       date_of_access: '14 Feb 2014' }
     it 'with full good input' do
-      expect(mla.generate_citation(options)).to eq 'Doe, John A. <i>Starbucks</i>. Time, 10 Oct 1992. Web. 14 Feb 2014.'
+      expect(mla.generate_citation(options)).to eq 'Doe, John A. "Article Title." <i>Starbucks.</i> Time, 10 Oct 1992. Web. 14 Feb 2014.'
     end
   end
 
@@ -78,7 +79,7 @@ describe Cite_Me do
       date_of_creation: '10 Oct 1992',
       date_of_access: '14 Feb 2014' }
     it 'assumes options[:author] is one author and will accept string' do
-      expect(mla.generate_citation(options)).to eq 'Doe, John A. <i>Starbucks</i>. Time, 10 Oct 1992. Web. 14 Feb 2014.'
+      expect(mla.generate_citation(options)).to eq 'Doe, John A. <i>Starbucks.</i> Time, 10 Oct 1992. Web. 14 Feb 2014.'
     end
   end
 
@@ -101,22 +102,31 @@ describe Cite_Me do
         "medium"=>'Print',
         "source_type"=>"book"}
     it 'returns the proper citation' do
-      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>Test Source One</i>. 1992. Print."
+      expect(mla.generate_citation(options)).to eq "Smith, Jacob. <i>Test Source One.</i> 1992. Print."
     end
   end
 
   describe 'when given just a title' do
     options = { source_type: 'book', title: 'This is a title'}
     it 'should still return a title properly formatted' do
-      expect(mla.generate_citation(options)).to eq '<i>This is a title</i>. n.d.'
+      expect(mla.generate_citation(options)).to eq '<i>This is a title.</i> n.d.'
     end
   end
 
   describe 'when given a title with a period' do
     options = { source_type: 'book', title: 'This is a title.'}
     it 'should only have one period on the end of the title in the citation' do
-      expect(mla.generate_citation(options)).to eq '<i>This is a title</i>. n.d.'
+      expect(mla.generate_citation(options)).to eq '<i>This is a title.</i> n.d.'
     end
   end
 
+  describe "when the title has a question mark or exclamation point as the last character" do
+    it "should not replace it with a '.'" do
+      options = { source_type: 'book', title: 'This is a title?'}
+      expect(mla.generate_citation(options)).to eq '<i>This is a title?</i> n.d.'
+
+      options = { source_type: 'book', title: 'This is a title!'}
+      expect(mla.generate_citation(options)).to eq '<i>This is a title!</i> n.d.'
+    end
+  end
 end
